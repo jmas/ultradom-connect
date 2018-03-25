@@ -1,0 +1,43 @@
+{
+  "name": "ultradom-connect",
+  "version": "0.1.0",
+  "description": "Connect store with redux-like interface to ultradom",
+  "main": "dist/index.js",
+  "repository": "git@github.com:jmas/ultradom-connect.git",
+  "author": "Alex Maslakov",
+  "license": "MIT",
+  "keywords": [
+    "connect",
+    "redux",
+    "ultradom"
+  ],
+  "scripts": {
+    "test": "mocha test/",
+    "codestyle": "npm run format && eslint {src,test}/*.js",
+    "format": "prettier --semi false --single-quote true --write {src,test}/*.js",
+    "bundle": "rollup -i src/index.js -o dist/index.js -m -f umd -n ultradomConnect",
+    "release": "npm run codestyle && npm run test && npm run bundle && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags && npm publish"
+  },
+  "files": [
+    "dist",
+    "ultradom-connect.d.ts"
+  ],
+  "typings": "ultradom-connect.d.ts",
+  "dependencies": {
+    "ultradom": "^2.3.4"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.19.1",
+    "jsdom": "^11.6.2",
+    "mocha": "^5.0.5",
+    "prettier": "^1.11.1",
+    "rollup": "^0.57.1",
+    "rollup-plugin-babel": "^3.0.3",
+    "rollup-plugin-node-resolve": "^3.3.0"
+  }
+}
