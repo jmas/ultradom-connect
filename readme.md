@@ -16,7 +16,6 @@ Connect store with redux-like interface to ultradom.
 ```js
 import { connect } from 'ultradom-connect'
 import chat from './chat'
-import chatActions from './chat_actions'
 
 // chat.store - redux store
 // chat.actions - chat action creators
