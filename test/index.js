@@ -5,11 +5,8 @@ var JSDOM = require('jsdom').JSDOM
 var patch = require('ultradom').patch
 var h = require('ultradom').h
 
-const dom = new JSDOM(
-  '<!DOCTYPE html><html><body><div id="app"></div></body></html>'
-)
+const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>')
 global.document = dom.window.document
-var rootElement = document.getElementById('app')
 
 function createStore() {
   return {
@@ -24,11 +21,16 @@ function createStore() {
 
     subscribe: function(listener) {
       this.listener = listener
+      return function() {
+        this.listener = null
+      }
     },
 
     changeState: function(newState) {
       this.state = newState
-      this.listener()
+      if (this.listener) {
+        this.listener()
+      }
     }
   }
 }
@@ -36,6 +38,8 @@ function createStore() {
 describe('connect()', function() {
   it('props are merged correctly', function(done) {
     var store = createStore()
+    document.body.innerHTML = '<div id="app"></div>'
+    var rootElement = document.getElementById('app')
     function Cmp(props) {
       assert.deepEqual(props, {
         outProp: 'outProp',
@@ -56,16 +60,16 @@ describe('connect()', function() {
 
   it('when store is chenges it should change DOM', function() {
     var store = createStore()
+    document.body.innerHTML = '<div id="app"></div>'
+    var rootElement = document.getElementById('app')
     function Cmp(props) {
-      return h('div', {}, [
-        h('div', { 'data-hook': 'count' }, [String(props.count)])
-      ])
+      return h('div', { 'data-hook': 'count' }, [String(props.count || null)])
     }
     var CmpConnected = connect()(Cmp)
-    patch(h(CmpConnected, { store: store }, []), rootElement)
+    patch(h(CmpConnected, { store: store }), rootElement)
     store.changeState({ count: 2 })
     assert.deepEqual(
-      rootElement.querySelector('[data-hook="count"]').innerHTML,
+      document.body.querySelector('[data-hook="count"]').innerHTML,
       2
     )
   })

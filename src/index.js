@@ -11,52 +11,48 @@ function mergeStateAndPropsDefault(state, ownProps) {
 /**
  * Function is using for the same as react-redux connect() function, but with different interface
  * @param {Function} mergeStateAndProps - merge store state and props that came from the top
- * @param {Object} options - options object
- * @param {String} options.connectRootTag - tag name of element outside of connected component
- * @param {String} options.componentRootTag - tag name of root element inside connected component
+ * @returns {VNode} - virtual node that represent connected component
  */
-function connect(mergeStateAndProps, options) {
+function connect(mergeStateAndProps) {
   mergeStateAndProps = mergeStateAndProps
     ? mergeStateAndProps
     : mergeStateAndPropsDefault
-  options = clone(
-    {
-      connectRootTag: 'div',
-      componentRootTag: 'div'
-    },
-    options || {}
-  )
   return function(Component) {
     var unsubscribe
-    var rootElement
     return function ConnectedComponent(ownProps) {
       var store = ownProps.store
-      function patchRootElement() {
-        patch(
-          h(Component, mergeStateAndProps(store.getState(), ownProps)),
-          rootElement
-        )
+      function subscribe(element) {
+        if (unsubscribe) {
+          unsubscribe()
+        }
+
+        function patchComponent() {
+          element = patch(
+            h(Component, mergeStateAndProps(store.getState(), ownProps)),
+            element
+          )
+        }
+
+        var unsubscribeFromStore = store.subscribe(patchComponent)
+
+        unsubscribe = function() {
+          unsubscribeFromStore()
+          unsubscribe = null
+        }
+
+        patchComponent()
       }
-      function createRootElement(element) {
-        rootElement = document.createElement(options.componentRootTag)
-        unsubscribe = store.subscribe(patchRootElement)
-        element.appendChild(rootElement)
-        patchRootElement()
-      }
-      return h(options.connectRootTag, {
+      return h('div', {
         oncreate: function(element) {
-          createRootElement(element)
+          subscribe(element)
         },
         onupdate: function(element, oldAttributes) {
           if (oldAttributes.store !== store) {
-            createRootElement(element)
+            subscribe(element)
           }
         },
-        ondestroy: function(element) {
-          element.removeChild(rootElement)
+        ondestroy: function() {
           unsubscribe()
-          rootElement = null
-          unsubscribe = null
         }
       })
     }

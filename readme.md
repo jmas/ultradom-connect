@@ -4,12 +4,10 @@ Connect store with redux-like interface to ultradom.
 
 ## Interface
 
-`connect(mergeStateAndProps, options)`
+`connect(mergeStateAndProps)`
 
 * @param {Function} `mergeStateAndProps` -  merge store state and props that came from the top
-* @param {Object} `options` - options object
-* @param {String} `options.connectRootTag` - tag name of element outside of connected component
-* @param {String} `options.componentRootTag` - tag name of root element inside connected component
+* @returns {VNode} - virtual node that represent connected component
 
 ## Example
 
