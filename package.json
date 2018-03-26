@@ -1,6 +1,6 @@
 {
   "name": "ultradom-connect",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Connect store with redux-like interface to ultradom",
   "main": "dist/index.js",
   "repository": "git@github.com:jmas/ultradom-connect.git",
@@ -18,7 +18,7 @@
     "format": "prettier --semi false --single-quote true --write {src,test}/*.js",
     "bundle": "rollup -i src/index.js -o dist/index.js -m -f umd -n ultradomConnect",
     "minify": "uglifyjs dist/index.js -o dist/index.js -mc pure_funcs=['Object.defineProperty'] --source-map includeSources,url=index.js.map",
-    "release": "npm run codestyle && npm run test && npm run build && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags && npm publish"
+    "release": "npm run codestyle && npm run build && npm run test && git commit -am $npm_package_version && git tag $npm_package_version && git push --tags && npm publish"
   },
   "files": [
     "dist",
@@ -38,8 +38,6 @@
     "mocha": "^5.0.5",
     "prettier": "^1.11.1",
     "rollup": "^0.57.1",
-    "rollup-plugin-babel": "^3.0.3",
-    "rollup-plugin-node-resolve": "^3.3.0",
     "uglify-js": "^3.3.16"
   }
 }
