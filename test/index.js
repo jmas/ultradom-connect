@@ -42,10 +42,16 @@ function createStore() {
 }
 
 describe('connect()', function() {
-  it('props are merged correctly', function(done) {
-    var store = createStore()
+  var store
+  var rootElement
+
+  beforeEach(function() {
     document.body.innerHTML = '<div id="app"></div>'
-    var rootElement = document.getElementById('app')
+    rootElement = document.getElementById('app')
+    store = createStore()
+  })
+
+  it('props are merged correctly', function(done) {
     function Cmp(props) {
       assert.deepEqual(props, {
         outProp: 'outProp',
@@ -65,11 +71,21 @@ describe('connect()', function() {
   })
 
   it('when store is chenges it should change DOM', function() {
-    var store = createStore()
-    document.body.innerHTML = '<div id="app"></div>'
-    var rootElement = document.getElementById('app')
     function Cmp(props) {
       return h('div', { 'data-hook': 'count' }, [String(props.count || null)])
+    }
+    var CmpConnected = connect()(Cmp)
+    patch(h(CmpConnected, { store: store }), rootElement)
+    store.changeState({ count: 2 })
+    assert.deepEqual(
+      document.body.querySelector('[data-hook="count"]').innerHTML,
+      2
+    )
+  })
+
+  it('when we have different mount root and component root', function() {
+    function Cmp(props) {
+      return h('main', { 'data-hook': 'count' }, [String(props.count || null)])
     }
     var CmpConnected = connect()(Cmp)
     patch(h(CmpConnected, { store: store }), rootElement)

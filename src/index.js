@@ -24,10 +24,14 @@ export function connect(mergeStateAndProps) {
         }
 
         function patchComponent() {
-          element = patch(
+          var newElement = patch(
             h(Component, mergeStateAndProps(store.getState(), ownProps)),
             element
           )
+          if (element.parentNode && newElement !== element) {
+            element.parentNode.replaceChild(newElement, element)
+          }
+          element = newElement
         }
 
         var unsubscribeFromStore = store.subscribe(patchComponent)

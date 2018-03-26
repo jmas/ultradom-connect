@@ -1,6 +1,6 @@
 {
   "name": "ultradom-connect",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Connect store with redux-like interface to ultradom",
   "main": "dist/index.js",
   "repository": "git@github.com:jmas/ultradom-connect.git",
