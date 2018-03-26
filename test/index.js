@@ -1,12 +1,18 @@
 var assert = require('assert')
-var connect = require('../src/index').connect
-var clone = require('../src/utils').clone
+var connect = require('../dist/index').connect
 var JSDOM = require('jsdom').JSDOM
 var patch = require('ultradom').patch
 var h = require('ultradom').h
 
 const dom = new JSDOM('<!DOCTYPE html><html><body></body></html>')
 global.document = dom.window.document
+
+function clone(target, source) {
+  var out = {}
+  for (var i in target) out[i] = target[i]
+  for (var j in source) out[j] = source[j]
+  return out
+}
 
 function createStore() {
   return {

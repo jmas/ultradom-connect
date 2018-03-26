@@ -1,8 +1,5 @@
-var ultradom = require('ultradom')
-var utils = require('./utils')
-var h = ultradom.h
-var patch = ultradom.patch
-var clone = utils.clone
+import { h, patch } from 'ultradom'
+import { clone } from './utils'
 
 function mergeStateAndPropsDefault(state, ownProps) {
   return clone(ownProps, state)
@@ -13,7 +10,7 @@ function mergeStateAndPropsDefault(state, ownProps) {
  * @param {Function} mergeStateAndProps - merge store state and props that came from the top
  * @returns {VNode} - virtual node that represent connected component
  */
-function connect(mergeStateAndProps) {
+export function connect(mergeStateAndProps) {
   mergeStateAndProps = mergeStateAndProps
     ? mergeStateAndProps
     : mergeStateAndPropsDefault
@@ -57,8 +54,4 @@ function connect(mergeStateAndProps) {
       })
     }
   }
-}
-
-module.exports = {
-  connect: connect
 }

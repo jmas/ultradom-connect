@@ -1,6 +1,6 @@
 {
   "name": "ultradom-connect",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Connect store with redux-like interface to ultradom",
   "main": "dist/index.js",
   "repository": "git@github.com:jmas/ultradom-connect.git",
@@ -24,16 +24,15 @@
     "dist",
     "ultradom-connect.d.ts"
   ],
+  "babel": {
+    "presets": "env"
+  },
   "typings": "ultradom-connect.d.ts",
   "dependencies": {
     "ultradom": "^2.3.4"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
     "eslint": "^4.19.1",
     "jsdom": "^11.6.2",
     "mocha": "^5.0.5",
