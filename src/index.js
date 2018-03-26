@@ -60,5 +60,5 @@ function connect(mergeStateAndProps) {
 }
 
 module.exports = {
-  connect
+  connect: connect
 }
