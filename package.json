@@ -12,7 +12,7 @@
     "ultradom"
   ],
   "scripts": {
-    "test": "mocha test/",
+    "test": "npm run bundle && mocha test/",
     "build": "npm run bundle && npm run minify",
     "codestyle": "npm run format && eslint {src,test}/*.js",
     "format": "prettier --semi false --single-quote true --write {src,test}/*.js",
