@@ -28,8 +28,8 @@ export function connect(mergeStateAndProps) {
             h(Component, mergeStateAndProps(store.getState(), ownProps)),
             element
           )
-          if (element.parentNode && newElement !== element) {
-            element.parentNode.replaceChild(newElement, element)
+          if (newElement !== element) {
+            subscribe(newElement)
           }
           element = newElement
         }
